@@ -1,0 +1,34 @@
+RAG Systems and Knowledge Enhancement
+
+Retrieval Augmented Generation (RAG) improves LLM accuracy with external knowledge.
+
+RAG Workflow:
+1. Load and index documents
+2. User asks a question
+3. Retrieve relevant documents
+4. Pass context to LLM
+5. Generate answer based on context
+6. Include source citations
+
+Benefits of RAG:
+- Accurate and factual answers
+- Cite sources and references
+- Support for domain-specific knowledge
+- Reduced hallucination
+- Updatable knowledge base
+- Cost-effective with smaller models
+
+Implementation:
+- Document loading and parsing
+- Chunking and embedding
+- Vector store storage
+- Query processing
+- LLM integration
+- Answer synthesis
+
+Mistral with RAG:
+- Use Mistral Large for generation
+- Use Mistral Embed for embeddings
+- Efficient retrieval and processing
+- Multilingual support
+- Privacy-preserving design

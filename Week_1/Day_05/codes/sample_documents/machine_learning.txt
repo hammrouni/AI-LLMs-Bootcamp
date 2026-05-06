@@ -1,0 +1,24 @@
+Machine Learning and Data Science
+
+Machine Learning is a subset of Artificial Intelligence focused on learning from data.
+
+ML Workflow Stages:
+1. Data Collection: Gathering data
+2. Data Preprocessing: Cleaning and preparing
+3. Feature Engineering: Selecting features
+4. Model Selection: Choosing algorithms
+5. Training: Training the model
+6. Evaluation: Measuring performance
+7. Deployment: Launching in production
+
+Types of Learning:
+- Supervised: Data with labels
+- Unsupervised: Data without labels
+- Reinforcement: Learning from rewards
+
+Popular Algorithms:
+- Linear Regression
+- Decision Trees
+- Random Forest
+- Neural Networks
+- Support Vector Machines

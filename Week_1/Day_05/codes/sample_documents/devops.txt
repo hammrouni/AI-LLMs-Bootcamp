@@ -1,0 +1,28 @@
+DevOps and Continuous Integration
+
+DevOps practices improve software delivery and operations.
+
+Key DevOps Tools:
+- Git: Version control (GitHub, GitLab)
+- Docker: Containerization
+- Kubernetes: Orchestration
+- Jenkins: CI/CD automation
+- Terraform: Infrastructure as code
+- Prometheus: Monitoring
+
+CI/CD Pipeline:
+1. Code commit to repository
+2. Automated tests run
+3. Build container image
+4. Push to registry
+5. Deploy to staging
+6. Run integration tests
+7. Deploy to production
+8. Monitor and log
+
+Benefits:
+- Faster releases
+- Better quality
+- Faster bug fixes
+- Improved collaboration
+- Reduced manual errors

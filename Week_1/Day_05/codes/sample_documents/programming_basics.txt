@@ -1,0 +1,21 @@
+Tunisian Programming and Technology
+
+Programming is the art and science of giving instructions to computers.
+
+Programming Basics:
+- Variables: For storing data
+- Data types: Numbers, text, boolean values
+- Operators: Mathematical and logical operations
+- Control flow: if/else and loops
+- Functions: Reusing code
+
+Programming Languages:
+- Python: Easy and powerful
+- JavaScript: The language of the web
+- Java: For enterprise applications
+- Go: For high performance
+
+Programming Paradigms:
+- Procedural: Step-by-step instructions
+- Object-oriented: Objects and classes
+- Functional: Functions and immutable data

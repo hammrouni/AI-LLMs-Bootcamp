@@ -1,0 +1,24 @@
+Tunisian Data Systems
+
+Data management is critical for modern applications and analytics.
+
+Database Types:
+- Relational: MySQL, PostgreSQL, Oracle
+- Document: MongoDB, CouchDB
+- Key-Value: Redis, Memcached
+- Graph: Neo4j
+- Search: Elasticsearch
+
+Data Operations:
+- CRUD: Create, Read, Update, Delete
+- Indexing: Faster searches
+- Transactions: Data consistency
+- Replication: Data redundancy
+- Backup and recovery: Data protection
+
+Data Structures:
+- Tables and schemas
+- Documents and collections
+- Key-value pairs
+- Graph nodes and edges
+- Inverted indexes

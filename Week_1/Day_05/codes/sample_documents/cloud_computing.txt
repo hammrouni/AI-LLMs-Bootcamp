@@ -1,0 +1,24 @@
+Cloud Computing and Infrastructure
+
+Cloud platforms provide scalable computing resources.
+
+Major Cloud Providers:
+- AWS (Amazon Web Services)
+- Google Cloud Platform (GCP)
+- Microsoft Azure
+- DigitalOcean
+- Self-hosted solutions
+
+Cloud Services:
+- Compute: Virtual machines and containers
+- Storage: Object and file storage
+- Databases: Managed SQL and NoSQL
+- Networking: Load balancing and CDN
+- Security: Encryption and access control
+
+Cloud Benefits:
+- Scalability: Grow as needed
+- Reliability: High uptime SLAs
+- Cost-efficiency: Pay-as-you-go
+- Global reach: Multiple regions
+- Automatic updates: No maintenance burden

@@ -1,0 +1,23 @@
+Tunisian Web Development
+
+Web development combines front-end and back-end technologies to build websites and applications.
+
+Front-End Technologies:
+- HTML: Structure and content
+- CSS: Styling and layout
+- JavaScript: Interactivity and dynamic behavior
+- Frameworks: React, Vue, Angular
+- Tools: Webpack, npm, yarn
+
+Back-End Technologies:
+- Languages: Python, Node.js, Java, Go
+- Frameworks: Django, Express, Spring, Gin
+- APIs: REST, GraphQL
+- Databases: SQL, NoSQL
+
+Web Development Workflow:
+1. Planning and design
+2. Frontend development
+3. Backend development
+4. Testing and debugging
+5. Deployment and maintenance

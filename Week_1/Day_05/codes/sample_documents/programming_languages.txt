@@ -1,0 +1,31 @@
+Programming Languages Comparison
+
+Different languages for different purposes.
+
+Python:
+- Easy to learn and read
+- Large ecosystem of libraries
+- Great for data science and AI
+- Web development frameworks
+- Automation and scripting
+
+JavaScript:
+- Runs in browsers
+- Full-stack development
+- Asynchronous programming
+- Large npm ecosystem
+- Mobile development (React Native)
+
+Go:
+- High performance
+- Efficient concurrency
+- Simple syntax
+- Cloud and DevOps tools
+- Docker and Kubernetes
+
+Choosing a Language:
+- Project requirements
+- Team expertise
+- Performance needs
+- Ecosystem maturity
+- Community support
