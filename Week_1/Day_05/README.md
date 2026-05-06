@@ -1,171 +1,107 @@
-# 📅 Day 5: RAG & LlamaIndex 🚀
 
-## ⚠️ IMPORTANT: Python Version Requirements
+# 📅 اليوم 5: LlamaIndex & RAG Pipeline 🚀
 
-**Use Python 3.11 or 3.12 — NOT 3.13+**
+<div dir="rtl">
 
-LlamaIndex and most ML packages do not yet support Python 3.13.
+# كيفاش تبني سيستام RAG كامل بـ LlamaIndex و Mistral AI
 
-### Why not Python 3.13?
-- **LlamaIndex** requires `Python <3.12`
-- **NumPy, PyTorch, TensorFlow** have limited 3.13 support
-- **Industry standard**: ML community uses Python 3.11/3.12
-- **Stability**: 3.13 released Sept 2024, ecosystem still catching up
+</div>
 
 ---
 
-# RAG — Retrieval Augmented Generation
+## 🎯 الهدف متاع اليوم
 
-Augment your LLM with real documents for accurate, factual answers.
+<div dir="rtl">
 
----
+**باش نركّحو pipeline كامل متاع RAG ماللي تشرجي لي documents للـ LLM اللي يجاوبك مريڤل.**
 
-## 🎯 Today's Goal
-
-Learn **RAG (Retrieval Augmented Generation)** — a technique to make AI answer correctly using YOUR documents instead of hallucinating.
-
-**The Problem**: LLMs are like humans who read one book — they make up answers from imagination.
-
-**The Solution**: Give them your real documents (PDFs, text, data), index them with embeddings, and tell the LLM "answer based on THESE documents" — accurate and verified.
+</div>
 
 ---
 
-## 📚 Key Concepts
+## 📚 المفاهيم الصحيحة (Key Concepts)
 
-- **RAG Pipeline**: Load docs → split → embed → store → retrieve → generate
-- **Document Loading**: Load PDFs, TXTs, or data files in organized way
-- **Chunking**: Split long documents into small chunks (with overlap) for accurate embeddings
-- **Embeddings**: Convert text to vectors (numbers) — the "fingerprint" of text
-- **Vector Store**: Save vectors in smart database (Pinecone, Weaviate, sqlite-vec)
-- **Query Engine**: User asks question → find closest chunks → pass to LLM with context
-- **LlamaIndex**: Framework that simplifies all these steps with simple API
+<div dir="rtl">
+
+- **Document Loading:** تشرجي files (txt, pdf, md...) وتزيدهم الـ metadata باش تعرف الـ source منين جا.
+- **Chunking:** تقص لي documents الطوال لطروف صغار (nodes) بـ `chunk_size` وتخلي تداخل (`chunk_overlap`) باش المعنى ما يضيعش.
+- **Embeddings:** تترجم كل طريف (chunk) لـ vector (أرقام) بـ `mistral-embed` (فالـ 1024).
+- **Vector Store:** البلاصة وين تخبي لي vectors، يا في الـ RAM يا تسجلهم فالـ disk (باش يقعدو persistés).
+- **Query Engine:** تخلط retriever مع LLM = يلوّج عالـ chunks اللي قراب لسؤالك ويعطيك جواب مريڤل.
+
+</div>
 
 ---
 
-## 🛠️ Setup Instructions
+## 🛠️ كيفاش تبدا تخدم (Steps to Complete Today)
 
-### Step 1: Create Virtual Environment with Python 3.11 or 3.12
+<div dir="rtl">
+
+**الخطة باش تريفز وتطبق نهارك:**
+
+1️⃣ **أقرأ `concept.md` هو الأول** — لازم تفهم "علاش" قبل "كيفاش".
+2️⃣ **خَدّم (run) الـ `demo.py`** — شوف الكود "لايف" قدام عينيك كيفاش يتصرف.
+3️⃣ **خلوضها وحدك** — بدّل الـ `chunk_size`، بدّل الـ `similarity_top_k`، وتستي.
+
+</div>
 
 ```bash
-# Check if Python 3.11 is available
-py -3.11 --version
-
-# Create new venv with Python 3.11
-py -3.11 -m venv bootcamp
-
-# Activate venv
-bootcamp\Scripts\activate     # Windows
+# 1. شعل الـ virtual environment متاعك (Python 3.11 ولا 3.12 برك، أخطاك مالـ 3.13+)
+python -m venv bootcamp
+bootcamp\Scripts\activate  # Windows
 source bootcamp/bin/activate  # Mac/Linux
-```
 
-### Step 2: Install Dependencies
+# 2. صب الـ "سلعة" (packages) اللي باش تستحقها
+pip install llama-index llama-index-readers-file \
+            llama-index-llms-mistralai \
+            llama-index-embeddings-mistralai \
+            python-dotenv
 
-```bash
-# Base packages
-pip install llama-index llama-index-readers-file python-dotenv
-
-# Optional: For Mistral embeddings
-pip install llama-index-embeddings-mistralai llama-index-llms-mistralai
-```
-
-### Step 3: Configure API Keys
-
-```bash
-# Copy .env template
-copy codes\.env.example codes\.env
-
-# Edit codes\.env and add:
-# MISTRAL_API_KEY=your_key_from_console.mistral.ai
-# (Optional) OPENAI_API_KEY=your_openai_key_for_embeddings
-```
-
-### Step 4: Run Demos
-
-```bash
-cd codes\01_Document_Loading
-python demo.py
+# 3. ريكل الـ .env وحط فيه الـ API key
+# اعمل فيتشيي .env وزيد فيه:
+# MISTRAL_API_KEY=your_key_here
 ```
 
 ---
 
-## 📖 Your Learning Path
 
-**Follow this order** (each depends on the previous):
+## 💾 شنية لازم يكون عندك في لخر (Deliverables)
 
-1. **01_Document_Loading** → Learn to load documents with metadata
-2. **02_Chunking_Embeddings** → Split docs and create vector representations
-3. **03_Vector_Store** → Store vectors for fast retrieval
-4. **04_Query_Engine** → Search and rank relevant documents
-5. **05_Complete_RAG** → Tie everything together into a working system
+<div dir="rtl">
 
-Each folder has:
-- **concept.md** — Understand the concepts (read first)
-- **demo.py** — See it in action (run second)
+✨ **كي يوفى النهار، لازم تكون مريقل في هاذوم:**
 
----
+- ✅ رانيت (Run) لي demos بالترتيب من 01 للـ 05.
+- ✅ تستيت بـ `chunk_size` متبدلين وشفت شنية يتبدّل.
+- ✅ جربت الـ `similarity_top_k` = 1, 3, 5 وقارنت النتايج بناتهم.
+- ✅ سجلت (save) الـ index فالـ disk وعاودت شرجيتو من غير ما تقعد تخسر في فلوس الـ API مرتين عالفارغ.
 
-## 💾 Deliverables
-
-By the end of Day 5, you should have:
-
-✅ `01_Document_Loading` — Load documents and manage metadata
-✅ `02_Chunking_Embeddings` — Split text and compute embeddings
-✅ `03_Vector_Store` — Store and persist vectors
-✅ `04_Query_Engine` — Build search with different top-k values
-✅ `05_Complete_RAG` — Complete pipeline from documents to LLM answers
+</div>
 
 ---
 
-## 🔗 Related Days
+## 📖 مراجع باش تزيد تشيخ (Resources)
 
-- **Previous**: [Day 4 - LangChain Fundamentals](../Day_04/README.md)
-- **Next**: [Day 6 - Smart Chatbot](../Day_06/README.md)
-
----
-
-## 💡 Tips & Tricks
-
-- **Mistral embeddings** are OpenAI-compatible — easy to swap providers
-- **Chunk size matters**: 512 tokens is the sweet spot (balance precision vs context)
-- **20% overlap** prevents context cutoff between chunks
-- **Vector similarity** (cosine similarity) is 0-1, where 1 = identical meaning
-- **Mistral-embed** produces 1024 dimensions (vs OpenAI's 1536)
-- **No API key?** All demos work in demo mode showing the workflow
-- **Start simple** with SimpleVectorStore, upgrade to Pinecone for production
+- 📚 **LlamaIndex Documentation:** [docs.llamaindex.ai](https://docs.llamaindex.ai/)
+- 🤖 **Mistral AI Console:** [console.mistral.ai](https://console.mistral.ai)
+- 💻 **Code Examples:** طل على Dossier `codes/` (من 01 للـ 05).
 
 ---
 
-## 🐛 Troubleshooting
+## 🔗 أيام عندها علاقة
 
-**ModuleNotFoundError: No module named 'llama_index'**
-→ Run: `pip install llama-index`
-
-**Python 3.13 compatibility error**
-→ Use Python 3.11 or 3.12: `py -3.11 -m venv bootcamp`
-
-**API Key errors**
-→ Check `.env` file has correct key format (no spaces, no quotes)
-
-**Embedding service unavailable**
-→ Demos work without API keys — shows what would happen with real API
+- **البارح:** [اليوم 4 - LangChain](../Day_04/README.md)
+- **غدوة:** [اليوم 6 - Smart Chatbot Part 1](../Day_06/README.md)
 
 ---
 
-## 📚 Resources
+## 💡 نصائح ماللخر (Tips)
 
-- [LlamaIndex Documentation](https://docs.llamaindex.ai/)
-- [RAG Concepts](https://docs.llamaindex.ai/en/stable/getting_started/concepts/)
-- [Mistral API Docs](https://docs.mistral.ai/)
-- [Vector Embeddings Guide](https://platform.openai.com/docs/guides/embeddings)
+<div dir="rtl">
 
----
+- **الـ Mistral** — الـ embeddings هوني يخدمو بـ `mistral-embed` (1024 بُعد).
+- **نفس الـ model للي docs وللأسئلة** — كان تبدّل الـ model راك باش تفرعس الـ similarity والكود يدخل في حيط.
+- **الـ Persistence حكاية لازمة** — ديما سجّل الـ index متاعك باش ما تقعدش تخلص فالـ API مرتين عالفارغ.
+- **الـ Metadata هي الدليل متاعك (traceability)** — زيدها ماللول باش تنجم تبع الجواب منين جاك بالظبط.
 
-## 🚀 Next Steps After Day 5
-
-1. Use real documents (your PDFs, company docs, research papers)
-2. Experiment with different chunk sizes
-3. Try Pinecone for cloud-based vector storage
-4. Add reranking for better search quality
-5. Build a chatbot on top of your RAG system (Day 6)
-
-Good luck! 🎓
+</div>
