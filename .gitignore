@@ -33,3 +33,12 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Vector DB local stores
+chroma_db_demo/
+chroma_db_demo_mistral/
+recipe_search_db/
+recipe_search_db_local/
+qdrant_db_demo/
+qdrant_db_demo_mistral/
+*.sqlite3
