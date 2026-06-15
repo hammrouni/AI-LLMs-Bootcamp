@@ -41,4 +41,6 @@ recipe_search_db/
 recipe_search_db_local/
 qdrant_db_demo/
 qdrant_db_demo_mistral/
+chroma_*_demo/
+qdrant_*_demo/
 *.sqlite3
