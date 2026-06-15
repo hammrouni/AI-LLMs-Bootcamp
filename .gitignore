@@ -42,5 +42,10 @@ recipe_search_db_local/
 qdrant_db_demo/
 qdrant_db_demo_mistral/
 chroma_*_demo/
+chroma_eval_*/
+chroma_retriever_demo/
 qdrant_*_demo/
 *.sqlite3
+
+# Generated sample documents
+sample_docs/
