@@ -2,7 +2,7 @@
 
 ---
 
-## 📦 Packages
+## Packages
 
 ```bash
 pip install ollama chromadb langchain-text-splitters
@@ -87,6 +87,84 @@ That's it. Everything else (chunking, vector DB, prompts, citations) is unchange
 ### The Golden Rule:
 - **Build an abstract `embed()` / `generate()` so you can swap providers in one line.** The RAG pipeline shouldn't know whether it's calling Ollama or Mistral.
 
+### Indexing the Corpus (from demo.py)
+
+```python
+import ollama
+import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+embed_model = "nomic-embed-text"
+
+def embed(text: str):
+    return ollama.embeddings(model=embed_model, prompt=text)["embedding"]
+
+# Create persistent vector store
+chroma = chromadb.PersistentClient(path="./chroma_offline_rag")
+collection = chroma.get_or_create_collection("docs")
+
+splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
+
+# Index documents
+for source, text in CORPUS.items():
+    chunks = splitter.split_text(text)
+    if not chunks:
+        continue
+    vectors = [embed(c) for c in chunks]
+    collection.add(
+        documents=chunks,
+        embeddings=vectors,
+        metadatas=[{"source": source} for _ in chunks],
+        ids=[f"{source}::{i}" for i in range(len(chunks))],
+    )
+```
+
+### Asking Questions With Retrieval (from demo.py)
+
+```python
+SYSTEM_PROMPT = """You are the support assistant for MASTER Soft.
+RULES:
+- Answer ONLY using the provided context.
+- If unknown, reply exactly: "I don't know based on the documents I have."
+- Be concise (1-3 sentences).
+- End with citations like [source: filename].
+"""
+
+def ask(question: str, k=3) -> str:
+    # Retrieve
+    q_vec = embed(question)
+    res = collection.query(query_embeddings=[q_vec], n_results=k)
+    chunks = res["documents"][0]
+    sources = [m["source"] for m in res["metadatas"][0]]
+    context = "\n\n".join(f"[{s}] {c}" for s, c in zip(sources, chunks))
+
+    # Generate
+    resp = ollama.chat(
+        model=chat_model,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user",   "content": f"Context:\n{context}\n\nQuestion: {question}"},
+        ],
+        options={"num_predict": 200, "temperature": 0.2},
+    )
+    return resp["message"]["content"].strip()
+```
+
+### Testing With Known and Unknown Questions (from demo.py)
+
+```python
+questions = [
+    "What's the refund window?",
+    "What products does MASTER Soft build?",
+    "How many vacation days per year?",
+    "Who leads the engineering team?",
+    "What is the speed of light?",  # not in corpus — should refuse
+]
+for q in questions:
+    print(f"Q: {q}")
+    print(f"A: {ask(q)}")
+```
+
 ### BAD vs GOOD
 
 ```python
@@ -97,6 +175,9 @@ def ask(q):
     answer = mistral.chat.complete(...)
 
 # GOOD — abstract providers behind two small functions
+def embed(text):
+    return ollama.embeddings(model=embed_model, prompt=text)["embedding"]
+
 def ask(q, embed_fn, generate_fn):
     vec = embed_fn(q)
     ...

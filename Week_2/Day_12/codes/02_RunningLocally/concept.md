@@ -26,6 +26,12 @@ Cloud LLMs have real downsides at production scale:
 
 Local inference flips all five.
 
+### Common mistakes beginners make (from demo.py)
+
+1. Using `generate()` for multi-turn conversations — loses conversation history between calls
+2. Building chat context with string concatenation — instead of using a messages list
+3. Forgetting `stream=True` — waiting 8+ seconds for a wall of text
+
 ---
 
 ## What is the Solution? Local Inference With Ollama!
@@ -68,33 +74,45 @@ ollama.generate(model="mistral", prompt="Translate to French: Hello!")
 ### The Golden Rule:
 - **Match the conversation pattern to the endpoint.** `chat` for multi-turn (with history). `generate` for stateless one-shots.
 
-### Basic Usage
+### chat() With System + User Roles (from demo.py)
 
 ```python
 import ollama
 
-# Multi-turn chat
-messages = [
-    {"role": "system", "content": "You are a helpful Tunisian travel guide."},
-    {"role": "user",   "content": "What should I see in 2 days in Sfax?"},
-]
-response = ollama.chat(model="mistral", messages=messages)
-print(response["message"]["content"])
+resp = ollama.chat(
+    model=model,
+    messages=[
+        {"role": "system", "content": "You are a brief Tunisian travel guide."},
+        {"role": "user",   "content": "Top 1 thing to do in Tunisia in one short sentence?"},
+    ],
+    options={"num_predict": 80},
+)
+print(resp["message"]["content"].strip())
+```
 
-# Streaming output (tokens as they come)
+### generate() — One-Shot Completion (from demo.py)
+
+```python
+resp = ollama.generate(
+    model=model,
+    prompt="Translate to Tunisian darija (one short sentence): 'Hello, how are you today?'",
+    options={"num_predict": 60},
+)
+print(resp["response"].strip())
+```
+
+### Streaming Output — Watch Tokens Arrive Live (from demo.py)
+
+```python
 for chunk in ollama.chat(
-    model="mistral",
-    messages=messages,
+    model=model,
+    messages=[
+        {"role": "user", "content": "In two sentences, tell a small story about Bilel finding a hidden café in Tunis."},
+    ],
     stream=True,
+    options={"temperature": 0.6, "num_predict": 200},
 ):
     print(chunk["message"]["content"], end="", flush=True)
-
-# Per-call options
-response = ollama.chat(
-    model="mistral",
-    messages=messages,
-    options={"temperature": 0.2, "num_predict": 200},
-)
 ```
 
 ### Chat vs Generate
@@ -137,4 +155,4 @@ Non-streaming on CPU: 8 second wait, then a wall of text
 Streaming on CPU:     first char in 0.5s, words flowing in real time
 ```
 
-Same model, same speed, but the user perceives it as 10× faster.
+Same model, same speed, but the user perceives it as 10x faster.

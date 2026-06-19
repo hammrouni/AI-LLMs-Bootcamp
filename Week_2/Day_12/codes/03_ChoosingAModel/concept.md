@@ -35,7 +35,7 @@ Mistral 7B  on Tunisian laptop: 90% accuracy, 1s/query
 Llama3 70B  on rented GPU:      94% accuracy, 8s/query, 100x cost
 ```
 
-The bigger model is only 4% better but 100× more expensive. Pick wisely.
+The bigger model is only 4% better but 100x more expensive. Pick wisely.
 
 ---
 
@@ -61,7 +61,7 @@ Start with **`mistral:latest` (7B instruct, Q4_K_M quantization)** unless you ha
 | Keyword / Concept | What it means |
 |---|---|
 | `parameters` | The numbers inside the model — more = bigger, slower |
-| `quantization` | Lower precision to save memory (Q4 ≈ 4 bits per weight) |
+| `quantization` | Lower precision to save memory (Q4 = 4 bits per weight) |
 | `instruct` | Trained to follow instructions (the version you almost always want) |
 | `chat` | Trained for conversational style |
 | `base` | Untuned — usually NOT what you want |
@@ -70,19 +70,38 @@ Start with **`mistral:latest` (7B instruct, Q4_K_M quantization)** unless you ha
 ### The Golden Rule:
 - **Choose by RAM first, then by quality.** A model that doesn't fit in memory is infinitely slow.
 
-### Comparing Models Quickly
+### Listing Available Models (from demo.py)
+
+```python
+import ollama
+
+info = ollama.list()
+available = [m.get("name") or m.get("model") for m in info.get("models", [])]
+print(available)
+```
+
+### Benchmarking Models Side by Side (from demo.py)
 
 ```python
 import ollama, time
 
-models = ["mistral", "phi3:mini", "llama3"]   # whichever you've pulled
-prompt = "Summarize in one sentence: 'Tunisia is a country in North Africa famous for couscous and Carthage.'"
+prompt = (
+    "Summarize in one sentence: "
+    "'Tunisia is a country in North Africa famous for couscous, Carthage, and olive oil.'"
+)
 
-for m in models:
+candidates = ["mistral", "phi3"]  # whichever you've pulled
+
+for m in candidates:
+    # Warmup: load model into memory (not timed)
+    ollama.generate(model=m, prompt="hi", options={"num_predict": 1})
+
+    # Timed generation
     start = time.perf_counter()
     resp = ollama.generate(model=m, prompt=prompt, options={"num_predict": 80})
     elapsed = time.perf_counter() - start
-    print(f"[{m}] {elapsed:.1f}s  ->  {resp['response'].strip()}")
+    output = resp["response"].strip().replace("\n", " ")
+    print(f"[{m:<30}] {elapsed:5.1f}s   {output[:120]}")
 ```
 
 ### BAD vs GOOD

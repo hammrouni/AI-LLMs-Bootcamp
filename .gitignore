@@ -47,6 +47,7 @@ chroma_retriever_demo/
 chroma_rag_pipeline/
 chroma_faq_capstone/
 chroma_offline_rag/
+chroma_prod_local_rag/
 qdrant_*_demo/
 *.sqlite3
 

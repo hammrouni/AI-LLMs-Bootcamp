@@ -99,16 +99,64 @@ ollama list
 
 For Tunisian users with a standard 16 GB laptop, **7B models are the sweet spot**.
 
+### Verifying the Daemon + Models (from demo.py)
+
+```python
+import ollama
+
+# Check if daemon is running and list models
+try:
+    info = ollama.list()
+except Exception as e:
+    print(f"Could not reach Ollama daemon: {e}")
+    print("Fix: ollama serve")
+
+# Inspect available models
+models = info.get("models", [])
+for m in models:
+    name = m.get("name") or m.get("model")
+    size_gb = (m.get("size") or 0) / (1024 ** 3)
+    print(f"  {name:30}  {size_gb:.2f} GB")
+```
+
+### Making Your First Local Chat Call (from demo.py)
+
+```python
+import ollama
+
+# Auto-pick a model from what's pulled
+info = ollama.list()
+names = [m.get("name") or m.get("model") for m in info.get("models", [])]
+candidate_models = ["llama3", "mistral", "phi"]
+pulled = None
+for c in candidate_models:
+    match = next((n for n in names if c in n), None)
+    if match:
+        pulled = match
+        break
+
+# Make a chat call
+response = ollama.chat(
+    model=pulled,
+    messages=[
+        {"role": "user", "content": "In one sentence, what is couscous?"},
+    ],
+)
+answer = response["message"]["content"].strip()
+print(f"A: {answer}")
+```
+
 ### BAD vs GOOD
 
 ```python
-# BAD — assume the model is pulled in your code
-client.chat(model="some-random-model", messages=[...])   # crash
+# BAD — assume the model is pulled, no verification
+ollama.chat(model="some-random-model", messages=[...])   # crash
 
-# GOOD — document required pulls in the README, fail fast with a clear message
-def ensure_model(name):
-    if name not in [m["name"] for m in ollama.list()["models"]]:
-        raise RuntimeError(f"Run: ollama pull {name}")
+# GOOD — check ollama.list() first, fail fast with a clear message
+info = ollama.list()
+models = info.get("models", [])
+if not models:
+    print("No models pulled. Run: ollama pull mistral")
 ```
 
 ---
